@@ -8,6 +8,7 @@
 
 'use strict';
 
+require('dotenv').config()
 var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
@@ -21,7 +22,12 @@ module.exports = function (app) {
 
     })
     .post(function(req, res, next) {
+      console.log('post body: ' + JSON.stringify(req.body));
+      let board = req.body.board;
+      let postText = req.body.text;
+      let deletePasword = req.body.delete_password;
 
+      
     })
     .put(function(req, res, next) {
 
