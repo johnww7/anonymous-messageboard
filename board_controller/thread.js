@@ -18,7 +18,7 @@ db.once('open', function callback() {
 });
 
 const replySchema = new mongoose.Schema({
-    _id: String,
+    //_id: String,
     text: String,
     created_on: {type: Date, default: Date.now},
     delete_password: String,
@@ -26,7 +26,7 @@ const replySchema = new mongoose.Schema({
 });
 
 const threadSchema = new mongoose.Schema({
-    _id: String,
+    //_id: String,
     text: String,
     created_on: {type: Date, default: Date.now},
     bumped_on: {type: Date, default: Date.now},
