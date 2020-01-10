@@ -15,3 +15,18 @@ exports.createThread = async(data) => {
         console.log('failed to create thread: ' + err);
     }
 }
+
+exports.createReply = async(data) => {
+    try {
+        let options = {
+            new: true
+        };
+        let replyToInsert = new Reply(data);
+        const newReply = await Thread.findByIdAndUpdate({_id: data._id}, 
+            { $set:{bumped_on: Date.now()}, $push:{replies: replyToInsert}, options});
+        return newReply;
+    }
+    catch(err) {
+        console.log('failed to create reply: ' + err);
+    }
+}

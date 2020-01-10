@@ -22,7 +22,7 @@ module.exports = function (app) {
 
     })
     .post(function(req, res, next) {
-      console.log('post body: ' + JSON.stringify(req.body));
+      console.log('post body for threads: ' + JSON.stringify(req.body));
       let board = req.body.board;
       let postText = req.body.text;
       let deletePasword = req.body.delete_password;
@@ -41,7 +41,7 @@ module.exports = function (app) {
 
     })
     .post(function(req, res, next) {
-
+      console.log('post body for replies: ' + JSON.stringify(req.body));
     })
     .put(function(req, res, next) {
 
