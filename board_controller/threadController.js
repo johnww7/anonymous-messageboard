@@ -1,5 +1,5 @@
-const Thread = require('/thread.js');
-const Reply = require('/thread.js')
+const Thread = require('./thread');
+const Replies = require('./thread');
 
 exports.createThread = async(data) => {
     try{
@@ -8,7 +8,16 @@ exports.createThread = async(data) => {
             setDefaultsOnInsert: true,
             new: true
         };
-        const newThread = await Thread.findOneAndUpdate({_id: data._id}, data, options);
+        let threadData = new Thread({
+            text: data.text,
+            //created_on: {type: Date, default: Date.now},
+            //bumped_on: {type: Date, default: Date.now},
+            reported: data.reported,
+            delete_password: data.delete_password,
+        });
+        console.log('Thread data in controller: ' + JSON.stringify(data));
+        const newThread = await Thread.findOneAndUpdate({_id: data._id}, threadData, options);
+        console.log('Thread created: ' + JSON.stringify(newThread));
         return newThread;
     }
     catch(err){

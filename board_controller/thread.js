@@ -2,13 +2,14 @@ var mongoose = require('mongoose');
 
 require('dotenv').config()
 
+mongoose.set('useFindAndModify', false);
+
 mongoose.connect(process.env.CONNECTION_STRING, {
     keepAlive: true,
-    reconnectTries: Number.MAX_VALUE,
-    reconnectInterval: 500,
     connectTimeoutMS: 35000,
     socketTimeoutMS: 40000,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
 
 let db = mongoose. connection;

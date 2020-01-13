@@ -13,6 +13,8 @@ var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 var ObjectId = require('mongodb').ObjectId;
 
+var threadController = require('../board_controller/threadController');
+
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 
 module.exports = function (app) {
@@ -27,7 +29,15 @@ module.exports = function (app) {
       let postText = req.body.text;
       let deletePasword = req.body.delete_password;
 
-      
+      let postData = {
+        text: postText,
+        delete_password: deletePasword,
+        reported: false
+      };
+
+      let threadCreatedData = threadController.createThread(postData);
+      console.log('Thread created data: ' + JSON.stringify(threadCreatedData));
+      res.send(threadCreatedData);
     })
     .put(function(req, res, next) {
 
