@@ -16,7 +16,7 @@ exports.createThread = async(data) => {
             delete_password: data.delete_password,
         });
         console.log('Thread data in controller: ' + JSON.stringify(data));
-        const newThread = await Thread.findOneAndUpdate({_id: data._id}, threadData, options);
+        const newThread = await Thread.findOneAndUpdate({_id: data.id}, threadData, options);
         console.log('Thread created: ' + JSON.stringify(newThread));
         return newThread;
     }
@@ -31,7 +31,7 @@ exports.createReply = async(data) => {
             new: true
         };
         let replyToInsert = new Reply(data);
-        const newReply = await Thread.findByIdAndUpdate({_id: data._id}, 
+        const newReply = await Thread.findByIdAndUpdate({_id: data.id}, 
             { $set:{bumped_on: Date.now()}, $push:{replies: replyToInsert}, options});
         return newReply;
     }
