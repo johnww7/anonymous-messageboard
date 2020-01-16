@@ -39,5 +39,9 @@ const threadSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Thread', threadSchema);
-module.exports = mongoose.model('Replies', replySchema);
+var threads = mongoose.model('threads', threadSchema);
+var replies = mongoose.model('replies', replySchema);
+
+module.exports = {threads, replies};
+//module.exports = mongoose.model('Thread', threadSchema);
+//module.exports = mongoose.model('Replies', replySchema);
