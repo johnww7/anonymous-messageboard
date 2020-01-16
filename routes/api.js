@@ -35,9 +35,12 @@ module.exports = function (app) {
         reported: false
       };
 
-      let threadCreatedData = threadController.createThread(postData);
-      console.log('Thread created data: ' + JSON.stringify(threadCreatedData));
-      res.send(threadCreatedData);
+      let threadCreatedData = threadController.createThread(postData).then((data) => {
+        console.log('Thread created data: ' + JSON.stringify(data));
+        res.redirect('/b/' + board);
+      });
+      
+      //res.send(threadCreatedData);
     })
     .put(function(req, res, next) {
 
@@ -52,6 +55,10 @@ module.exports = function (app) {
     })
     .post(function(req, res, next) {
       console.log('post body for replies: ' + JSON.stringify(req.body));
+      let board = req.body.board;
+      let threadId = req.body.thread_id;
+      let replyText = req.body.text;
+      let deletePassword = req.body.delete_password;
     })
     .put(function(req, res, next) {
 
