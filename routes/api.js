@@ -30,6 +30,7 @@ module.exports = function (app) {
       let deletePasword = req.body.delete_password;
 
       let postData = {
+        board: board,
         text: postText,
         delete_password: deletePasword,
         reported: false
@@ -59,6 +60,19 @@ module.exports = function (app) {
       let threadId = req.body.thread_id;
       let replyText = req.body.text;
       let deletePassword = req.body.delete_password;
+
+      let replyData = {
+        threadId: threadId,
+        text: replyText,
+        createdOn: Date.now(),
+        delete_password: deletePassword,
+        reported: false
+      };
+
+      let replyToThread = threadController.createReply(replyData).then((data) => {
+        console.log('Reply to thread data: ' + JSON.stringify(data));
+        res.redirect('/b/' + board + '/' + threadId);
+      });
     })
     .put(function(req, res, next) {
 

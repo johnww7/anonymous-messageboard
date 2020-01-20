@@ -10,6 +10,7 @@ exports.createThread = async(data) => {
             new: true
         };
         let threadData = new threads({
+            board: data.board,
             text: data.text,
             created_on: Date.now(),
             bumped_on: Date.now(),
@@ -34,9 +35,17 @@ exports.createReply = async(data) => {
         let options = {
             new: true
         };
-        let replyToInsert = new replies(data);
-        const newReply = await Thread.findByIdAndUpdate({_id: data.id}, 
-            { $set:{bumped_on: Date.now()}, $push:{replies: replyToInsert}, options});
+
+        let replyToThreadData = {
+            text: data.text,
+            created_on:  data.createdOn,
+            delete_password: data.delete_password,
+            reported: data
+        };
+
+        let replyToInsert = new replies(replyToThreadData);
+        const newReply = await threads.findByIdAndUpdate({_id: data.threadId}, 
+            { $set:{bumped_on: data.createdOn}, $push:{replies: replyToInsert}, options});
         return newReply;
     }
     catch(err) {

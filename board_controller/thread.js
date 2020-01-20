@@ -28,6 +28,7 @@ const replySchema = new mongoose.Schema({
 
 const threadSchema = new mongoose.Schema({
     //_id: String,
+    board: String,
     text: String,
     created_on: {type: Date, default: Date.now},
     bumped_on: {type: Date, default: Date.now},
