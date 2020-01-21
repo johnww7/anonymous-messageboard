@@ -45,7 +45,7 @@ exports.createReply = async(data) => {
 
         let replyToInsert = new replies(replyToThreadData);
         const newReply = await threads.findByIdAndUpdate({_id: data.threadId}, 
-            { $set:{bumped_on: data.createdOn}, $push:{replies: replyToInsert}, options});
+            { $set:{bumped_on: data.createdOn}, $push:{replies: replyToInsert}}, options);
         return newReply;
     }
     catch(err) {
