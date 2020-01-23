@@ -21,7 +21,7 @@ module.exports = function (app) {
   
   app.route('/api/threads/:board')
     .get(function(req, res, next) {
-      let board = req.query;
+      let board = req.params.board;
       console.log("Board data: " + JSON.stringify(board));
     })
     .post(function(req, res, next) {

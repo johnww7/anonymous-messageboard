@@ -52,3 +52,14 @@ exports.createReply = async(data) => {
         console.log('failed to create reply: ' + err);
     }
 }
+
+exports.getThreads = async(data) => {
+    try {
+        let threadsFromSelectedBoard = await threads.find({board: data.board}, 
+            {delete_password:0, reported:0}, {sort: {bumped_on: asc}, limit:10});
+            
+    }
+    catch(err) {
+        console.log('Failed to return threads: ' + err);
+    }
+}
