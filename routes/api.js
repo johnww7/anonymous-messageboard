@@ -22,7 +22,12 @@ module.exports = function (app) {
   app.route('/api/threads/:board')
     .get(function(req, res, next) {
       let board = req.params.board;
-      console.log("Board data: " + JSON.stringify(board));
+      console.log("Board data: " + board + ': ' +typeof(board));
+
+      let getThreadsFromBoard = threadController.getThreads(board).then((data) => {
+        console.log('Threads retrieved from selected board: ' + JSON.stringify(data));
+        res.json(data);
+      });
     })
     .post(function(req, res, next) {
       console.log('post body for threads: ' + JSON.stringify(req.body));
@@ -39,7 +44,7 @@ module.exports = function (app) {
 
       let threadCreatedData = threadController.createThread(postData).then((data) => {
         console.log('Thread created data: ' + JSON.stringify(data));
-        res.redirect('/b/' + board);
+        res.json(data);
       });
       
       //res.send(threadCreatedData);
