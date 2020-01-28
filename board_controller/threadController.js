@@ -46,7 +46,7 @@ exports.createReply = async(data) => {
         let replyToInsert = new replies(replyToThreadData);
         const newReply = await threads.findByIdAndUpdate({_id: data.threadId}, 
             { $set:{bumped_on: data.createdOn}, 
-            $push:{replies: {$each: replyToInsert, $sort: {created_on: 1}}}}, 
+            $push:{replies: {$each: [replyToInsert], $sort: {created_on: 1}}}}, 
             options);
         return newReply;
     }
@@ -59,7 +59,8 @@ exports.getThreads = async(data) => {
     try {
         console.log('what is data: ' + data);
         let threadsFromSelectedBoard = await threads.find({board: data}, 
-            {delete_password:0, reported:0}, {sort: {bumped_on: 1}, limit:10});
+            {delete_password:0, reported:0, __v: 0, 'replies.delete_password':0, 'replies.reported': 0}, 
+            {sort: {bumped_on: 1}, limit:10, replies:{limit: 3}});
         return threadsFromSelectedBoard    
         
         }
