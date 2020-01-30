@@ -58,7 +58,10 @@ module.exports = function (app) {
     
   app.route('/api/replies/:board')
     .get(function(req, res, next) {
-
+      console.log('Get all replies for selected thread: ' + JSON.stringify(req.params));
+      console.log('thread id: ' + req.query.thread_id);
+      let board = req.params.board;
+      let threadId = req.query.thread_id;
     })
     .post(function(req, res, next) {
       console.log('post body for replies: ' + JSON.stringify(req.body));

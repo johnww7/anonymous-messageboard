@@ -60,7 +60,7 @@ exports.getThreads = async(data) => {
         console.log('what is data: ' + data);
         let threadsFromSelectedBoard = await threads.find({board: data}, 
             {delete_password:0, reported:0, __v: 0, 'replies.delete_password':0, 'replies.reported': 0}, 
-            {sort: {bumped_on: 1}, limit:10, replies:{limit: 3}});
+            {sort: {bumped_on: 1}, limit:10}).slice('replies', 3).exec();
         return threadsFromSelectedBoard    
         
         }
