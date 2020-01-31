@@ -55,7 +55,7 @@ exports.createReply = async(data) => {
     }
 }
 
-exports.getThreads = async(data) => {
+exports.getBoard = async(data) => {
     try {
         console.log('what is data: ' + data);
         let threadsFromSelectedBoard = await threads.find({board: data}, 
@@ -69,5 +69,16 @@ exports.getThreads = async(data) => {
     }
 }
 
-
+exports.getThread = async(data) => {
+    try {
+        console.log('get thread data: ' + JSON.stringify(data));
+        let getSelectedThread = await threads.find({_id: data},
+            {delete_password:0, reported:0, __v: 0, 'replies.delete_password':0, 
+            'replies.reported': 0}, {sort:{'replies.created_on':1}});
+        return getSelectedThread;
+    }
+    catch(err){
+        console.log('Failed to return selected thread: ' + err);
+    }
+}
 

@@ -24,7 +24,7 @@ module.exports = function (app) {
       let board = req.params.board;
       console.log("Board data: " + board + ': ' +typeof(board));
 
-      let getThreadsFromBoard = threadController.getThreads(board).then((data) => {
+      let getThreadsFromBoard = threadController.getBoard(board).then((data) => {
         console.log('Threads retrieved from selected board: ' + JSON.stringify(data));
         res.json(data);
       });
@@ -62,6 +62,12 @@ module.exports = function (app) {
       console.log('thread id: ' + req.query.thread_id);
       let board = req.params.board;
       let threadId = req.query.thread_id;
+
+      let getSelectedThread = threadController.getThread(threadId).then((data) => {
+        console.log("Selected Thread with all replies: " + JSON.stringify(data));
+        res.json(data);   
+      });
+
     })
     .post(function(req, res, next) {
       console.log('post body for replies: ' + JSON.stringify(req.body));
