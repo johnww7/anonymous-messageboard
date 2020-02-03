@@ -53,7 +53,17 @@ module.exports = function (app) {
 
     })
     .delete(function(req, res, next) {
-
+      console.log('Delete thread from board: ' + JSON.stringify(req.body));
+      let deleteId = req.body.delete_password;
+      let threadId = req.body.thread_id;
+      let deleteInfo = {
+        deletePass: deleteId,
+        threadId: threadId
+      }
+      let deleteThreadResult = threadController.deleteThread(deleteInfo).then((data) => {
+        console.log('Delete result info: ' + JSON.stringify(deleteThreadResult));
+        res.json({result: data});   
+      });
     });
     
   app.route('/api/replies/:board')

@@ -82,3 +82,14 @@ exports.getThread = async(data) => {
     }
 }
 
+exports.deleteThread = async(data) => {
+    try {
+        let deleteSelectedThread = await threads.find({_id: data.threadId}).
+            where('delete_password').equals(data.deletePass).exec();
+        console.log('Result of delete: ' + deleteSelectedThread);
+        return deleteSelectedThread;
+    }
+    catch(err){
+        console.log('Failed to delete thread: ' + err);
+    }
+}
