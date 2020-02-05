@@ -61,8 +61,8 @@ module.exports = function (app) {
         threadId: threadId
       }
       let deleteThreadResult = threadController.deleteThread(deleteInfo).then((data) => {
-        console.log('Delete result info: ' + JSON.stringify(deleteThreadResult));
-        res.json({result: data});   
+        console.log('Delete result info: ' + JSON.stringify(data));
+        res.json(data);   
       });
     });
     
