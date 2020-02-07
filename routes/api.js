@@ -103,7 +103,19 @@ module.exports = function (app) {
 
     })
     .delete(function(req, res, next) {
+      console.log('Delete reply from thread: ' + JSON.stringify(req.body));
+      let deletePass = req.body.delete_password;
+      let threadId = req.body.thread_id;
+      let replyId = req.body.reply_id;
+      let deletePostInfo = {
+        deletePass: deletePass,
+        threadId: threadId,
+        replyId: replyId
+      };
 
+      let deleteSelectedPost = threadController.deletePost(deletePostInfo).then((data) => {
+        console.log('Deleted post data: ' + JSON.stringify(data));
+      });
     });
 
 };
