@@ -103,8 +103,8 @@ exports.deleteThread = async(data) => {
 
 exports.deletePost = async(data) => {
     try{
-        let findSelectedPost = await threads.find({_id: data.threadId, 'replies._id': data.replyId});
-        console.log('Found selected post: ' + JSON.stringify(findSelectedPost));        
+        let findSelectedPost = await threads.find({_id: data.threadId});
+        console.log('Found selected post: ' + JSON.stringify(findSelectedPost[0].replies));        
     }
     catch(err){
         console.log('Failed to delete post: ' + err);
