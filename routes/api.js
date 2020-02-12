@@ -114,7 +114,8 @@ module.exports = function (app) {
       };
 
       let deleteSelectedPost = threadController.deletePost(deletePostInfo).then((data) => {
-        console.log('Deleted post data: ' + JSON.stringify(data));
+        console.log('Deleted post data: ' + data);
+        
       });
     });
 

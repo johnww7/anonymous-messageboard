@@ -105,6 +105,24 @@ exports.deletePost = async(data) => {
     try{
         let findSelectedPost = await threads.find({_id: data.threadId});
         console.log('Found selected post: ' + JSON.stringify(findSelectedPost[0].replies));        
+        //console.log('Type of replies: ' + findSelectedPost[0].replies.length)    
+        let selectedPostReplies = findSelectedPost[0].replies;
+        for(index of selectedPostReplies) {
+            console.log('Each reply: ' + index);
+            if(index._id == data.replyId) {
+                let positionOfIndex = selectedPostReplies.indexOf(index);
+                if(index.delete_password == data.deletePass) {
+                    findSelectedPost[0].replies[positionOfIndex].text = '[deleted]';
+                    let deletedPost = await findSelectedPost.save();
+                    return 'success';
+                }
+                else {
+                    return 'incorrect password';
+                }
+            }
+
+        }
+        return 'invalid reply id';
     }
     catch(err){
         console.log('Failed to delete post: ' + err);
