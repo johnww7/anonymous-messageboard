@@ -103,10 +103,35 @@ exports.deleteThread = async(data) => {
 
 exports.deletePost = async(data) => {
     try{
-        let findSelectedPost = await threads.find({_id: data.threadId});
-        console.log('Found selected post: ' + JSON.stringify(findSelectedPost[0].replies));        
+        let findSelectedPost = await threads.findById({_id: data.threadId}, function(err, threadData) {
+            if (err) {
+                return console.error(err);
+            }
+            let postDeleteResult = ''
+            threadData.replies.forEach(function(post) {
+                console.log('Posts: ' + post.id);
+                if(post.id === data.replyId && post.delete_password === data.deletePass) {
+                    post.text = '[delete]';
+                    postDeleteResult = 'success';
+                }
+                else if(post.id === data.replyID && post.delete_password !== data.deletePass){
+                    postDeleteResult = 'incorrect password';
+                }
+                else {
+                    postDeleteResult = 'post does not exist';
+                }
+            });
+
+            threadData.save();
+            return postDeleteResult;
+        });
+        
+        return(findSelectedPost);
+        //console.log('Found selected post: ' + JSON.stringify(findSelectedPost[0].replies));        
+        
         //console.log('Type of replies: ' + findSelectedPost[0].replies.length)    
-        let selectedPostReplies = findSelectedPost[0].replies;
+       
+        /* let selectedPostReplies = findSelectedPost[0].replies;
         for(index of selectedPostReplies) {
             console.log('Each reply: ' + index);
             if(index._id == data.replyId) {
@@ -122,7 +147,7 @@ exports.deletePost = async(data) => {
             }
 
         }
-        return 'invalid reply id';
+        return 'invalid reply id';*/
     }
     catch(err){
         console.log('Failed to delete post: ' + err);
