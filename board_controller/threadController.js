@@ -103,30 +103,43 @@ exports.deleteThread = async(data) => {
 
 exports.deletePost = async(data) => {
     try{
+        let postDeleteResult = '';
         let findSelectedPost = await threads.findById({_id: data.threadId}, function(err, threadData) {
             if (err) {
                 return console.error(err);
             }
-            let postDeleteResult = ''
+            //let postDeleteResult = ''
             threadData.replies.forEach(function(post) {
-                console.log('Posts: ' + post.id);
-                if(post.id === data.replyId && post.delete_password === data.deletePass) {
-                    post.text = '[delete]';
-                    postDeleteResult = 'success';
-                }
-                else if(post.id === data.replyID && post.delete_password !== data.deletePass){
-                    postDeleteResult = 'incorrect password';
+                console.log('Posts: ' + post.id + ' dataID: ' + data.replyId );
+                console.log('Type post delete password: ' + typeof(post.delete_password));
+                console.log('Type of deletePass: ' + typeof(data.deletePass));
+                if(post.id === data.replyId) {
+                    if(post.delete_password === data.deletePass){
+                        post.text = '[delete]';
+                        postDeleteResult = 'success';
+                        console.log('succes');
+                    }    
+                    else{
+                        postDeleteResult = 'incorrect password';
+                        console.log('incorrect password');
+                    }
                 }
                 else {
                     postDeleteResult = 'post does not exist';
+                    console.log('post does not exist');
                 }
             });
 
-            threadData.save();
-            return postDeleteResult;
+            let saveResult = threadData.save(function(err, result) {
+                if(err) {return console.err(err)}
+                return result;
+            });
+            //return saveResult;
         });
         
-        return(findSelectedPost);
+        console.log('Result of what happened: ' + postDeleteResult);
+        
+        return(postDeleteResult);
         //console.log('Found selected post: ' + JSON.stringify(findSelectedPost[0].replies));        
         
         //console.log('Type of replies: ' + findSelectedPost[0].replies.length)    
