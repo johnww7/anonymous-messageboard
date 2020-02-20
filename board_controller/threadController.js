@@ -140,29 +140,28 @@ exports.deletePost = async(data) => {
         console.log('Result of what happened: ' + postDeleteResult);
         
         return(postDeleteResult);
-        //console.log('Found selected post: ' + JSON.stringify(findSelectedPost[0].replies));        
-        
-        //console.log('Type of replies: ' + findSelectedPost[0].replies.length)    
-       
-        /* let selectedPostReplies = findSelectedPost[0].replies;
-        for(index of selectedPostReplies) {
-            console.log('Each reply: ' + index);
-            if(index._id == data.replyId) {
-                let positionOfIndex = selectedPostReplies.indexOf(index);
-                if(index.delete_password == data.deletePass) {
-                    findSelectedPost[0].replies[positionOfIndex].text = '[deleted]';
-                    let deletedPost = await findSelectedPost.save();
-                    return 'success';
-                }
-                else {
-                    return 'incorrect password';
-                }
-            }
-
-        }
-        return 'invalid reply id';*/
     }
     catch(err){
         console.log('Failed to delete post: ' + err);
+    }
+}
+
+exports.reportThread = async(data) => {
+    try {
+       let reportThreadResult = await threads.findByIdAndUpdate(
+           {_id: data}, 
+           {$set: {reported: true}}, 
+           {new: true});
+        console.log('Result of reporting thread: ' + JSON.stringify(reportThreadResult));
+
+        if(reportThreadResult.reported == true){
+            return 'success';
+        }
+        else {
+            return 'Thread not found';
+        }
+    }
+    catch(err) {
+        console.log('Failed to report thread: ' + err);
     }
 }

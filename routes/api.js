@@ -47,10 +47,17 @@ module.exports = function (app) {
         res.json(data);
       });
       
-      //res.send(threadCreatedData);
+      
     })
     .put(function(req, res, next) {
+      console.log('put body for threads: ' + JSON.stringify(req.body));
+      let board = req.body.board;
+      let threadId = req.body.thread_id;
 
+      let reportSelectedThread = threadController.reportThread(threadId).then((data) =>{
+        console.log('Reported thread result: ' + data);
+        res.send(data);
+      });
     })
     .delete(function(req, res, next) {
       console.log('Delete thread from board: ' + JSON.stringify(req.body));
