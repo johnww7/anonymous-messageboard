@@ -107,7 +107,15 @@ module.exports = function (app) {
       });
     })
     .put(function(req, res, next) {
+      console.log('put body for replies: ' + JSON.stringify(req.body));
+      let board = req.body.board;
+      let threadId = req.body.thread_id;
+      let replyId = req.body.reply_id;
 
+      let reportSelectedReply = threadCOntroller.reportReply({threaId, replyId}).then((data) =>{
+        console.log('Reported reply result: ' + data);
+        res.send(data);
+      });
     })
     .delete(function(req, res, next) {
       console.log('Delete reply from thread: ' + JSON.stringify(req.body));

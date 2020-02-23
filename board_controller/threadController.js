@@ -165,3 +165,17 @@ exports.reportThread = async(data) => {
         console.log('Failed to report thread: ' + err);
     }
 }
+
+exports.reportReply = async(data) => {
+    try {
+        let reportReplyResult = await threads.findOneAndUpdate(
+            {_id: data.threadId, 'replies._id': data.replyId},
+            {$set: {'replies.reported': true}},
+            {new: true});
+        console.log('Result of reporting reply: ' + JSON.stringify(reportReplyResult));
+    }
+    catch(err) {
+        console.log('Failed to report reply: ' + err);
+    }
+}
+
