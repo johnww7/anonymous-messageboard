@@ -40,7 +40,7 @@ exports.createReply = async(data) => {
             text: data.text,
             created_on:  data.createdOn,
             delete_password: data.delete_password,
-            reported: data
+            reported: data.reported
         };
 
         let replyToInsert = new replies(replyToThreadData);
@@ -168,11 +168,32 @@ exports.reportThread = async(data) => {
 
 exports.reportReply = async(data) => {
     try {
-        let reportReplyResult = await threads.findOneAndUpdate(
-            {_id: data.threadId, 'replies._id': data.replyId},
-            {$set: {'replies.reported': true}},
-            {new: true});
+        let postReportResult = '';
+        let reportReplyResult = await threads.findById({_id: data.threadId}, function (err, replyData) {
+            if (err) {
+                return console.error(err);
+            }
+            console.log('What we found: ' + JSON.stringify(replyData));
+            replyData.replies.forEach(function(post) {
+                console.log('Each reply: ' + JSON.stringify(post))
+                if(post.id === data.replyId) {
+                    post.reported = true;
+                    postReportResult = 'success';
+                    console.log('succes');
+                }
+                else {
+                    postReportResult = 'post does not exist';
+                    console.log('post does not exist');
+                }
+            });
+            let saveResult = replyData.save(function(err, result) {
+                if(err) {return console.err(err)}
+                return result;
+            });
+        });
         console.log('Result of reporting reply: ' + JSON.stringify(reportReplyResult));
+
+        return postReportResult;
     }
     catch(err) {
         console.log('Failed to report reply: ' + err);

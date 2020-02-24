@@ -112,7 +112,7 @@ module.exports = function (app) {
       let threadId = req.body.thread_id;
       let replyId = req.body.reply_id;
 
-      let reportSelectedReply = threadCOntroller.reportReply({threaId, replyId}).then((data) =>{
+      let reportSelectedReply = threadController.reportReply({threadId, replyId}).then((data) =>{
         console.log('Reported reply result: ' + data);
         res.send(data);
       });
