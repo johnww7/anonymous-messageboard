@@ -168,7 +168,7 @@ exports.reportThread = async(data) => {
 
 exports.reportReply = async(data) => {
     try {
-        let postReportResult = '';
+        let postReportResult = false;
         let reportReplyResult = await threads.findById({_id: data.threadId}, function (err, replyData) {
             if (err) {
                 return console.error(err);
@@ -178,13 +178,10 @@ exports.reportReply = async(data) => {
                 console.log('Each reply: ' + JSON.stringify(post))
                 if(post.id === data.replyId) {
                     post.reported = true;
-                    postReportResult = 'success';
-                    console.log('succes');
+                    postReportResult = true;
+                    console.log('success');
                 }
-                else {
-                    postReportResult = 'post does not exist';
-                    console.log('post does not exist');
-                }
+                
             });
             let saveResult = replyData.save(function(err, result) {
                 if(err) {return console.err(err)}
@@ -192,8 +189,8 @@ exports.reportReply = async(data) => {
             });
         });
         console.log('Result of reporting reply: ' + JSON.stringify(reportReplyResult));
-
-        return postReportResult;
+        return (postReportResult ? 'success' : 'post does not exist');
+        //return postReportResult;
     }
     catch(err) {
         console.log('Failed to report reply: ' + err);
