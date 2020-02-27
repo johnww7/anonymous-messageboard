@@ -23,7 +23,16 @@ exports.createThread = async(data) => {
         const newThread = await threadData.save();
 
         console.log('Thread created: ' + JSON.stringify(newThread));
-        return newThread;
+        return ({
+            _id: newThread._id,
+            board: newThread.board,
+            text: newThread.text,
+            created_on: newThread.created_on,
+            bumped_on: newThread.bumped_on,
+            reported: newThread.reported,
+            delete_password: newThread.delete_password,
+            replies: newThread.replies});
+        //return newThread;
     }
     catch(err){
         console.log('failed to create thread: ' + err);
