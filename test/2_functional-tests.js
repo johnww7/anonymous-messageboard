@@ -44,7 +44,7 @@ suite('Functional Tests', function() {
           .request(server)
           .get("/api/threads/general")
           .query({})
-          .end(function(err, rest) {
+          .end(function(err, res) {
             assert.equal(res.status, 200);
             assert.isArray(res.body);
             assert.notProperty(res.body[0], 'reported');
@@ -57,11 +57,33 @@ suite('Functional Tests', function() {
     });
     
     suite('DELETE', function() {
-      
+      test('Delete specified thread', function(done) {
+        chai
+          .request(server)
+          .delete("/api/threads/general")
+          .send({_id:""})
+          .end(function(err, res) {
+            assert.equal(res.status, 200);
+            assert.equal(res.body.result, 'success');
+            done();
+          });
+      });
     });
     
     suite('PUT', function() {
-      
+      test('Reporting a thread', function(done) {
+        chai
+          .request(server)
+          .put('/api/threads/general')
+          .send({
+            _id: ''
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200);
+            assert.equal(res.body, 'success');
+            done();
+          });
+      });
     });
     
 
