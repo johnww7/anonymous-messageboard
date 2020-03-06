@@ -103,7 +103,7 @@ module.exports = function (app) {
 
       let replyToThread = threadController.createReply(replyData).then((data) => {
         console.log('Reply to thread data: ' + JSON.stringify(data));
-        res.json(data);
+        //res.json(data);
         res.redirect('/b/' + board + '/' + threadId);
         
       });

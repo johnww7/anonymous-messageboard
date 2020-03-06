@@ -56,7 +56,7 @@ suite('Functional Tests', function() {
       });
     });
     
-    suite('DELETE', function() {
+    suite.skip('DELETE', function() {
       test('Delete specified thread', function(done) {
         chai
           .request(server)
@@ -73,7 +73,7 @@ suite('Functional Tests', function() {
       });
     });
     
-    suite('PUT', function() {
+    suite.skip('PUT', function() {
       test('Reporting a thread', function(done) {
         chai
           .request(server)
@@ -137,7 +137,7 @@ suite('Functional Tests', function() {
       });
     });
     
-    suite('PUT', function() {
+    suite.skip('PUT', function() {
       test('Report a reply', function(done) {
         chai
           .request(server)
@@ -154,7 +154,7 @@ suite('Functional Tests', function() {
       });  
     });
     
-    suite('DELETE', function() {
+    suite.skip('DELETE', function() {
       test('Delete a post', function(done) {
         chai
           .request(server)
