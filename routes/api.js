@@ -44,7 +44,8 @@ module.exports = function (app) {
 
       let threadCreatedData = threadController.createThread(postData).then((data) => {
         console.log('Thread created data: ' + JSON.stringify(data));
-        res.json(data);
+        //res.json(data);
+        res.redirect('/b/' + board);
       });
       
       
@@ -105,7 +106,7 @@ module.exports = function (app) {
         console.log('Reply to thread data: ' + JSON.stringify(data));
         //res.json(data);
         res.redirect('/b/' + board + '/' + threadId);
-        
+        //res.redirect('/api/threads/' + board + '/' + threadId);
       });
     })
     .put(function(req, res, next) {
