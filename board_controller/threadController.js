@@ -1,6 +1,8 @@
 //const Thread = require('./thread');
 //const Replies = require('./thread');
+var mongoose = require('mongoose');
 var {threads, replies} = require('./thread.js');
+var ObjectId= mongoose.Types.ObjectId;
 
 exports.createThread = async(data) => {
     try{
@@ -53,7 +55,7 @@ exports.createReply = async(data) => {
         };
 
         let replyToInsert = new replies(replyToThreadData);
-        const newReply = await threads.findByIdAndUpdate({_id: data.threadId}, 
+        const newReply = await threads.findByIdAndUpdate({_id: new ObjectId(data.threadId)}, 
             { $set:{bumped_on: data.createdOn}, 
             $push:{replies: {$each: [replyToInsert], $sort: {created_on: 1}}}}, 
             options);
