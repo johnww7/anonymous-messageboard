@@ -56,14 +56,14 @@ suite('Functional Tests', function() {
       });
     });
     
-    suite.skip('DELETE', function() {
+    suite('DELETE', function() {
       test('Delete specified thread', function(done) {
         chai
           .request(server)
           .delete("/api/threads/general")
           .send({
-            thread_id: '',
-            delete_password: ''
+            thread_id: '5e6197019bb8160e3669c70c',
+            delete_password: 'threadDelete'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -73,17 +73,17 @@ suite('Functional Tests', function() {
       });
     });
     
-    suite.skip('PUT', function() {
+    suite('PUT', function() {
       test('Reporting a thread', function(done) {
         chai
           .request(server)
           .put('/api/threads/general')
           .send({
-            thread_id: ''
+            thread_id: '5e6ab9746313ab0efdafc862'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.body, 'success');
+            assert.equal(res.body.result, 'success');
             done();
           });
       });
@@ -137,32 +137,32 @@ suite('Functional Tests', function() {
       });
     });
     
-    suite.skip('PUT', function() {
+    suite('PUT', function() {
       test('Report a reply', function(done) {
         chai
           .request(server)
           .put('/api/replies/general')
           .send({
-            thread_id: '',
-            reply_id: ''
+            thread_id: '5e584b1fa490a10dd24c441a',
+            reply_id: '5e5ee5581e90320d4de9a4d0'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.body, 'success');
+            assert.equal(res.body.result, 'success');
             done();
           });
       });  
     });
     
-    suite.skip('DELETE', function() {
+    suite('DELETE', function() {
       test('Delete a post', function(done) {
         chai
           .request(server)
           .delete("/api/replies/general")
           .send({
-            thread_id: '',
-            reply_id: '',
-            delete_password: ''
+            thread_id: '5e584bcba490a10dd24c441b',
+            reply_id: '5e62e0785ed9880d1ada7645',
+            delete_password: 'replyDelete'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -175,3 +175,5 @@ suite('Functional Tests', function() {
   });
 
 });
+
+//5e61986b700ae00ea9b9bc7c

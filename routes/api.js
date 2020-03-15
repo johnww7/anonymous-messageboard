@@ -57,7 +57,7 @@ module.exports = function (app) {
 
       let reportSelectedThread = threadController.reportThread(threadId).then((data) =>{
         console.log('Reported thread result: ' + data);
-        res.send(data);
+        res.json({result: data});
       });
     })
     .delete(function(req, res, next) {
@@ -117,7 +117,7 @@ module.exports = function (app) {
 
       let reportSelectedReply = threadController.reportReply({threadId, replyId}).then((data) =>{
         console.log('Reported reply result: ' + data);
-        res.send(data);
+        res.json({result:data});
       });
     })
     .delete(function(req, res, next) {
@@ -133,7 +133,7 @@ module.exports = function (app) {
 
       let deleteSelectedPost = threadController.deletePost(deletePostInfo).then((data) => {
         console.log('Deleted post data: ' + data);
-        res.send(data);
+        res.json({result: data});
       });
     });
 
