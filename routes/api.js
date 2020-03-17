@@ -28,6 +28,8 @@ module.exports = function (app) {
         console.log('Threads retrieved from selected board: ' + JSON.stringify(data));
         res.json(data);
       });
+      //res.redirect('/b' + board);
+      
     })
     .post(function(req, res, next) {
       console.log('post body for threads: ' + JSON.stringify(req.body));
@@ -105,9 +107,11 @@ module.exports = function (app) {
       let replyToThread = threadController.createReply(replyData).then((data) => {
         console.log('Reply to thread data: ' + JSON.stringify(data));
         //res.json(data);
-        res.redirect('/b/' + board + '/' + threadId);
+        
         //res.redirect('/api/threads/' + board + '/' + threadId);
       });
+      res.redirect('/b/' + board + '/' + threadId);
+
     })
     .put(function(req, res, next) {
       console.log('put body for replies: ' + JSON.stringify(req.body));
