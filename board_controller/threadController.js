@@ -20,11 +20,8 @@ exports.createThread = async(data) => {
             delete_password: data.delete_password,
             replies: []
         });
-        console.log('Thread data in controller: ' + JSON.stringify(data));
-        //const newThread = await Thread.findOneAndUpdate({_id: data.id}, threadData, options);
         const newThread = await threadData.save();
 
-        console.log('Thread created: ' + JSON.stringify(newThread));
         return ({
             _id: newThread._id,
             board: newThread.board,
@@ -33,8 +30,9 @@ exports.createThread = async(data) => {
             bumped_on: newThread.bumped_on,
             reported: newThread.reported,
             delete_password: newThread.delete_password,
-            replies: newThread.replies});
-        //return newThread;
+            replies: newThread.replies
+        });
+
     }
     catch(err){
         console.log('failed to create thread: ' + err);
@@ -68,7 +66,6 @@ exports.createReply = async(data) => {
 
 exports.getBoard = async(data) => {
     try {
-        console.log('what is data: ' + data);
         let threadsFromSelectedBoard = await threads.find({board: data}, 
             {delete_password:0, reported:0, __v: 0, 'replies.delete_password':0, 'replies.reported': 0}, 
             {sort: {bumped_on: 1}, limit:10}).slice('replies', 3).exec();
@@ -82,7 +79,6 @@ exports.getBoard = async(data) => {
 
 exports.getThread = async(data) => {
     try {
-        console.log('get thread data: ' + JSON.stringify(data));
         let getSelectedThread = await threads.find({_id: data},
             {delete_password:0, reported:0, __v: 0, 'replies.delete_password':0, 
             'replies.reported': 0}, {sort:{'replies.created_on':1}});
@@ -96,8 +92,6 @@ exports.getThread = async(data) => {
 exports.deleteThread = async(data) => {
     try {
         let findSelectedThread = await threads.find({_id: data.threadId});
-            //where('delete_password').equals(data.deletePass).exec();
-        console.log('Found selected: ' + JSON.stringify(findSelectedThread));
         if(findSelectedThread[0].delete_password == data.deletePass) {
             let deleteSelectedThread = await threads.findByIdAndDelete({_id: data.threadId});
             console.log('Result of delete: ' + deleteSelectedThread);
@@ -119,25 +113,18 @@ exports.deletePost = async(data) => {
             if (err) {
                 return console.error(err);
             }
-            //let postDeleteResult = ''
             threadData.replies.forEach(function(post) {
-                console.log('Posts: ' + post.id + ' dataID: ' + data.replyId );
-                console.log('Type post delete password: ' + typeof(post.delete_password));
-                console.log('Type of deletePass: ' + typeof(data.deletePass));
                 if(post.id === data.replyId) {
                     if(post.delete_password === data.deletePass){
                         post.text = '[delete]';
                         postDeleteResult = 'success';
-                        console.log('succes');
                     }    
                     else{
                         postDeleteResult = 'incorrect password';
-                        console.log('incorrect password');
                     }
                 }
                 else {
                     postDeleteResult = 'post does not exist';
-                    console.log('post does not exist');
                 }
             });
 
@@ -148,7 +135,7 @@ exports.deletePost = async(data) => {
             //return saveResult;
         });
         
-        console.log('Result of what happened: ' + postDeleteResult);
+        console.log('Result of delete post: ' + postDeleteResult);
         
         return(postDeleteResult);
     }
@@ -163,7 +150,6 @@ exports.reportThread = async(data) => {
            {_id: data}, 
            {$set: {reported: true}}, 
            {new: true});
-        console.log('Result of reporting thread: ' + JSON.stringify(reportThreadResult));
 
         if(reportThreadResult.reported == true){
             return 'success';
@@ -184,13 +170,12 @@ exports.reportReply = async(data) => {
             if (err) {
                 return console.error(err);
             }
-            console.log('What we found: ' + JSON.stringify(replyData));
+
             replyData.replies.forEach(function(post) {
-                console.log('Each reply: ' + JSON.stringify(post))
                 if(post.id === data.replyId) {
                     post.reported = true;
                     postReportResult = true;
-                    console.log('success');
+                    
                 }
                 
             });
@@ -199,9 +184,9 @@ exports.reportReply = async(data) => {
                 return result;
             });
         });
-        console.log('Result of reporting reply: ' + JSON.stringify(reportReplyResult));
+
         return (postReportResult ? 'success' : 'post does not exist');
-        //return postReportResult;
+        
     }
     catch(err) {
         console.log('Failed to report reply: ' + err);
