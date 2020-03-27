@@ -21,16 +21,17 @@ suite('Functional Tests', function() {
       test("Create new thread", function(done) {
         chai
           .request(server)
-          .post("/api/threads/general")
+          .post("/api/threads/testing")
           .send({
-            board: 'general',
+            board: 'testing',
             text: 'A test thread',
             delete_password: 'threadDelete',
             reported: false
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            //assert.equal(res.body.board, 'general');
+            console.log("whats in create thread body: " + JSON.stringify(res.body));
+            //assert.equal(res.body.board, 'testing');
             //assert.equal(res.body.text, 'A test thread');
             //assert.equal(res.body.delete_password, 'threadDelete');
             done();
@@ -42,7 +43,7 @@ suite('Functional Tests', function() {
       test("Retrieve all recent threads", function(done) {
         chai
           .request(server)
-          .get("/api/threads/general")
+          .get("/api/threads/testing")
           .query({})
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -60,7 +61,7 @@ suite('Functional Tests', function() {
       test('Delete specified thread', function(done) {
         chai
           .request(server)
-          .delete("/api/threads/general")
+          .delete("/api/threads/testing")
           .send({
             thread_id: '5e6197019bb8160e3669c70c',
             delete_password: 'threadDelete'
@@ -77,9 +78,9 @@ suite('Functional Tests', function() {
       test('Reporting a thread', function(done) {
         chai
           .request(server)
-          .put('/api/threads/general')
+          .put('/api/threads/testing')
           .send({
-            thread_id: '5e6ab9746313ab0efdafc862'
+            thread_id: '5e7d34ddc7e4740e0d83283f'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -98,17 +99,18 @@ suite('Functional Tests', function() {
       test("Reply to a thread", function(done) {
         chai
           .request(server)
-          .post("/api/replies/general")
+          .post("/api/replies/testing")
           .send({
-            board: 'general',
-            thread_id: '5e584b1fa490a10dd24c441a',
+            board: 'testing',
+            thread_id: '5e55a87c85cae10ce806ba54',
             text: 'A test reply',
             delete_password: 'replyDelete',
             reported: false
           })
           .end(function(err, res) {
+            console.log('Reply to thread test: ' + JSON.stringify(res.body));
             assert.equal(res.status, 200);
-           // assert.equal(res.body.board, 'general');
+            //assert.equal(res.body.board, 'testing');
             //assert.equal(res.body.text, 'A test reply');
             //assert.equal(res.body.delete_password, 'replyDelete');
             done();
@@ -120,9 +122,9 @@ suite('Functional Tests', function() {
       test("Retrieve an entire thread", function(done) {
         chai
           .request(server)
-          .get("/api/replies/general")
+          .get("/api/replies/testing")
           .query({
-            thread_id: '5e584b1fa490a10dd24c441a'
+            thread_id: '5e7d34b1c7e4740e0d83283e'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -141,10 +143,10 @@ suite('Functional Tests', function() {
       test('Report a reply', function(done) {
         chai
           .request(server)
-          .put('/api/replies/general')
+          .put('/api/replies/testing')
           .send({
-            thread_id: '5e584b1fa490a10dd24c441a',
-            reply_id: '5e5ee5581e90320d4de9a4d0'
+            thread_id: '5e7d34ddc7e4740e0d83283f',
+            reply_id: '5e7d360dc939230ee33720fe'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
@@ -158,10 +160,10 @@ suite('Functional Tests', function() {
       test('Delete a post', function(done) {
         chai
           .request(server)
-          .delete("/api/replies/general")
+          .delete("/api/replies/testing")
           .send({
-            thread_id: '5e584bcba490a10dd24c441b',
-            reply_id: '5e62e0785ed9880d1ada7645',
+            thread_id: '5e7e7faf8584aa0d7c43518d',
+            reply_id: '5e7e80cad40c9d0e6d325c59',
             delete_password: 'replyDelete'
           })
           .end(function(err, res) {
@@ -176,4 +178,3 @@ suite('Functional Tests', function() {
 
 });
 
-//5e61986b700ae00ea9b9bc7c

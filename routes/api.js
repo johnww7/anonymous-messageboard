@@ -22,10 +22,8 @@ module.exports = function (app) {
   app.route('/api/threads/:board')
     .get(function(req, res, next) {
       let board = req.params.board;
-      console.log("Board data: " + board + ': ' +typeof(board));
 
       let getThreadsFromBoard = threadController.getBoard(board).then((data) => {
-        console.log('Threads retrieved from selected board: ' + JSON.stringify(data));
         res.json(data);
       });
       
@@ -45,25 +43,20 @@ module.exports = function (app) {
       };
 
       let threadCreatedData = threadController.createThread(postData).then((data) => {
-        console.log('Thread created data: ' + JSON.stringify(data));
-        //res.json(data);
         res.redirect('/b/' + board);
       });
       
       
     })
     .put(function(req, res, next) {
-      console.log('put body for threads: ' + JSON.stringify(req.body));
       let board = req.body.board;
       let threadId = req.body.thread_id;
 
       let reportSelectedThread = threadController.reportThread(threadId).then((data) =>{
-        console.log('Reported thread result: ' + data);
         res.json({result: data});
       });
     })
     .delete(function(req, res, next) {
-      console.log('Delete thread from board: ' + JSON.stringify(req.body));
       let deleteId = req.body.delete_password;
       let threadId = req.body.thread_id;
       let deleteInfo = {
@@ -71,30 +64,27 @@ module.exports = function (app) {
         threadId: threadId
       }
       let deleteThreadResult = threadController.deleteThread(deleteInfo).then((data) => {
-        console.log('Delete result info: ' + JSON.stringify(data));
         res.json(data);   
       });
     });
     
   app.route('/api/replies/:board')
     .get(function(req, res, next) {
-      console.log('Get all replies for selected thread: ' + JSON.stringify(req.params));
-      console.log('thread id: ' + req.query.thread_id);
       let board = req.params.board;
       let threadId = req.query.thread_id;
 
       let getSelectedThread = threadController.getThread(threadId).then((data) => {
-        console.log("Selected Thread with all replies: " + JSON.stringify(data));
+        console.log("All replies for thread: " + JSON.stringify(data));
         res.json(data);   
       });
 
     })
     .post(function(req, res, next) {
-      console.log('post body for replies: ' + JSON.stringify(req.body));
       let board = req.body.board;
       let threadId = req.body.thread_id;
       let replyText = req.body.text;
       let deletePassword = req.body.delete_password;
+      console.log("whats in post to replies body: " + JSON.stringify(req.body));
 
       let replyData = {
         threadId: threadId,
@@ -105,26 +95,23 @@ module.exports = function (app) {
       };
 
       let replyToThread = threadController.createReply(replyData).then((data) => {
-        console.log('Reply to thread data: ' + JSON.stringify(data));
-        
-        res.redirect('/api/threads/' + board + '/' + threadId);
+        console.log("Replied to thread: " + JSON.stringify(data));
+        res.redirect('/b/' + board + '/' + threadId);
       });
       
+      //res.redirect('/api/threads/' + board + '/' + threadId);
 
     })
     .put(function(req, res, next) {
-      console.log('put body for replies: ' + JSON.stringify(req.body));
       let board = req.body.board;
       let threadId = req.body.thread_id;
       let replyId = req.body.reply_id;
 
       let reportSelectedReply = threadController.reportReply({threadId, replyId}).then((data) =>{
-        console.log('Reported reply result: ' + data);
         res.json({result:data});
       });
     })
     .delete(function(req, res, next) {
-      console.log('Delete reply from thread: ' + JSON.stringify(req.body));
       let deletePass = req.body.delete_password;
       let threadId = req.body.thread_id;
       let replyId = req.body.reply_id;
@@ -135,7 +122,6 @@ module.exports = function (app) {
       };
 
       let deleteSelectedPost = threadController.deletePost(deletePostInfo).then((data) => {
-        console.log('Deleted post data: ' + data);
         res.json({result: data});
       });
     });
