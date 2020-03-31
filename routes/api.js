@@ -53,7 +53,7 @@ module.exports = function (app) {
       let threadId = req.body.thread_id;
 
       let reportSelectedThread = threadController.reportThread(threadId).then((data) =>{
-        res.json({result: data});
+        res.send(data);
       });
     })
     .delete(function(req, res, next) {
@@ -63,8 +63,10 @@ module.exports = function (app) {
         deletePass: deleteId,
         threadId: threadId
       }
+      console.log('hhhh ' + JSON.stringify(deleteInfo))
       let deleteThreadResult = threadController.deleteThread(deleteInfo).then((data) => {
-        res.json(data);   
+        console.log('Whats result: ' + JSON.stringify(data));
+        res.send(data);   
       });
     });
     

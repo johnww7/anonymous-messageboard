@@ -91,14 +91,16 @@ exports.getThread = async(data) => {
 
 exports.deleteThread = async(data) => {
     try {
+        //let threadToFind = data.threadId;
         let findSelectedThread = await threads.find({_id: data.threadId});
+        console.log('Found selected: ' + JSON.stringify(findSelectedThread));
         if(findSelectedThread[0].delete_password == data.deletePass) {
             let deleteSelectedThread = await threads.findByIdAndDelete({_id: data.threadId});
             console.log('Result of delete: ' + deleteSelectedThread);
-            return {result: 'success'};
+            return 'success';
         }
         else {
-            return {result: 'incorrect password'};
+            return 'incorrect password';
         }
     }
     catch(err){
@@ -150,7 +152,7 @@ exports.reportThread = async(data) => {
            {_id: data}, 
            {$set: {reported: true}}, 
            {new: true});
-
+           console.log('Result of reporting thread: ' + JSON.stringify(reportThreadResult));
         if(reportThreadResult.reported == true){
             return 'success';
         }

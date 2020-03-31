@@ -63,11 +63,13 @@ suite('Functional Tests', function() {
           .request(server)
           .delete("/api/threads/testing")
           .send({
-            thread_id: '5e6197019bb8160e3669c70c',
+            board: 'testing',
+            thread_id: '55e7e819f2f65cd0f24dff5a0',
             delete_password: 'threadDelete'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
+            console.log("DId I delete for testing: " + JSON.stringify(res.body));
             assert.equal(res.body.result, 'success');
             done();
           });
@@ -80,11 +82,13 @@ suite('Functional Tests', function() {
           .request(server)
           .put('/api/threads/testing')
           .send({
-            thread_id: '5e7d34ddc7e4740e0d83283f'
+            board: 'testing',
+            thread_id: '5e8271d2ee21490c3e6400f8'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.body.result, 'success');
+            console.log('What is body for report: ' + JSON.stringify(res))
+            assert.equal(res.text, 'success');
             done();
           });
       });
