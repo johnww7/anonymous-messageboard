@@ -64,7 +64,7 @@ suite('Functional Tests', function() {
           .delete("/api/threads/testing")
           .send({
             board: 'testing',
-            thread_id: '55e7e819f2f65cd0f24dff5a0',
+            thread_id: '5e7e814b6a95b10ecdd64fc3',
             delete_password: 'threadDelete'
           })
           .end(function(err, res) {
@@ -106,7 +106,7 @@ suite('Functional Tests', function() {
           .post("/api/replies/testing")
           .send({
             board: 'testing',
-            thread_id: '5e55a87c85cae10ce806ba54',
+            thread_id: '5e7d34ddc7e4740e0d83283f',
             text: 'A test reply',
             delete_password: 'replyDelete',
             reported: false
@@ -166,8 +166,9 @@ suite('Functional Tests', function() {
           .request(server)
           .delete("/api/replies/testing")
           .send({
-            thread_id: '5e7e7faf8584aa0d7c43518d',
-            reply_id: '5e7e80cad40c9d0e6d325c59',
+            board: 'testing',
+            thread_id: '5e7d34b1c7e4740e0d83283e',
+            reply_id: '5e7d34ebc7e4740e0d832840',
             delete_password: 'replyDelete'
           })
           .end(function(err, res) {

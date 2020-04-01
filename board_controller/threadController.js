@@ -111,11 +111,16 @@ exports.deleteThread = async(data) => {
 exports.deletePost = async(data) => {
     try{
         let postDeleteResult = '';
-        let findSelectedPost = await threads.findById({_id: data.threadId}, function(err, threadData) {
+        console.log("what are we receiving: " + JSON.stringify(data));
+
+        let findSelectedPost = await threads.find({_id: new ObjectId(data.threadId)}, function(err, threadData) {
+            console.log("are we here after find");
             if (err) {
                 return console.error(err);
             }
-            threadData.replies.forEach(function(post) {
+            //console.log('Thread data contents: ' + JSON.stringify(threadData[0].replies))
+            for(let post of threadData[0].replies) {
+                console.log("each post: " + JSON.stringify(post));
                 if(post.id === data.replyId) {
                     if(post.delete_password === data.deletePass){
                         post.text = '[delete]';
@@ -128,12 +133,13 @@ exports.deletePost = async(data) => {
                 else {
                     postDeleteResult = 'post does not exist';
                 }
-            });
+            }
 
             let saveResult = threadData.save(function(err, result) {
                 if(err) {return console.err(err)}
                 return result;
             });
+            console.log('Did delete post work? ' + JSON.stringify(saveResult))
             //return saveResult;
         });
         

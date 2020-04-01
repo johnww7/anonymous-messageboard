@@ -76,7 +76,7 @@ module.exports = function (app) {
       let threadId = req.query.thread_id;
 
       let getSelectedThread = threadController.getThread(threadId).then((data) => {
-        console.log("All replies for thread: " + JSON.stringify(data));
+        
         res.json(data);   
       });
 
@@ -86,7 +86,7 @@ module.exports = function (app) {
       let threadId = req.body.thread_id;
       let replyText = req.body.text;
       let deletePassword = req.body.delete_password;
-      console.log("whats in post to replies body: " + JSON.stringify(req.body));
+      
 
       let replyData = {
         threadId: threadId,
@@ -97,11 +97,10 @@ module.exports = function (app) {
       };
 
       let replyToThread = threadController.createReply(replyData).then((data) => {
-        console.log("Replied to thread: " + JSON.stringify(data));
+        
         res.redirect('/b/' + board + '/' + threadId);
       });
       
-      //res.redirect('/api/threads/' + board + '/' + threadId);
 
     })
     .put(function(req, res, next) {
@@ -118,9 +117,9 @@ module.exports = function (app) {
       let threadId = req.body.thread_id;
       let replyId = req.body.reply_id;
       let deletePostInfo = {
-        deletePass: deletePass,
-        threadId: threadId,
-        replyId: replyId
+        deletePass: req.body.delete_password,
+        threadId: req.body.thread_id,
+        replyId: req.body.reply_id
       };
 
       let deleteSelectedPost = threadController.deletePost(deletePostInfo).then((data) => {
