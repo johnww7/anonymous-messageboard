@@ -118,11 +118,14 @@ exports.deletePost = async(data) => {
             if (err) {
                 return console.error(err);
             }
+            console.log("Whats in threaData from find: " + JSON.stringify(threadData))
             //console.log('Thread data contents: ' + JSON.stringify(threadData[0].replies))
             for(let post of threadData[0].replies) {
                 console.log("each post: " + JSON.stringify(post));
-                if(post.id === data.replyId) {
-                    if(post.delete_password === data.deletePass){
+                console.log('Post ID: ' +typeof((post._id).toString()) + ' ReplyID: ' + typeof(data.replyId))
+                console.log('Post ID: ' + (post._id).toString() + ' deletePass' + (post.delete_password).toString())
+                if((post._id).toString() == data.replyId) {
+                    if((post.delete_password).toString() === data.deletePass){
                         post.text = '[delete]';
                         postDeleteResult = 'success';
                     }    
@@ -135,7 +138,7 @@ exports.deletePost = async(data) => {
                 }
             }
 
-            let saveResult = threadData.save(function(err, result) {
+            let saveResult = threadData[0].save(function(err, result) {
                 if(err) {return console.err(err)}
                 return result;
             });

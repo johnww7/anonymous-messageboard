@@ -30,7 +30,7 @@ suite('Functional Tests', function() {
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            console.log("whats in create thread body: " + JSON.stringify(res.body));
+            console.log("whats in create thread body: " + JSON.stringify(res.board));
             //assert.equal(res.body.board, 'testing');
             //assert.equal(res.body.text, 'A test thread');
             //assert.equal(res.body.delete_password, 'threadDelete');
@@ -106,13 +106,13 @@ suite('Functional Tests', function() {
           .post("/api/replies/testing")
           .send({
             board: 'testing',
-            thread_id: '5e7d34ddc7e4740e0d83283f',
+            thread_id: '5e7e80cad40c9d0e6d325c59',
             text: 'A test reply',
             delete_password: 'replyDelete',
             reported: false
           })
           .end(function(err, res) {
-            console.log('Reply to thread test: ' + JSON.stringify(res.body));
+            //console.log('Reply to thread test: ' + JSON.stringify(res));
             assert.equal(res.status, 200);
             //assert.equal(res.body.board, 'testing');
             //assert.equal(res.body.text, 'A test reply');
@@ -168,7 +168,7 @@ suite('Functional Tests', function() {
           .send({
             board: 'testing',
             thread_id: '5e7d34b1c7e4740e0d83283e',
-            reply_id: '5e7d34ebc7e4740e0d832840',
+            reply_id: '5e87bad76f968c13d427f9e6',
             delete_password: 'replyDelete'
           })
           .end(function(err, res) {
