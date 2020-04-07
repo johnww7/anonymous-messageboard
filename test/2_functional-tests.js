@@ -30,10 +30,7 @@ suite('Functional Tests', function() {
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            console.log("whats in create thread body: " + JSON.stringify(res.board));
-            //assert.equal(res.body.board, 'testing');
-            //assert.equal(res.body.text, 'A test thread');
-            //assert.equal(res.body.delete_password, 'threadDelete');
+            assert.isDefined(res.text, 'Redirect page exists');
             done();
           });
       });
@@ -64,13 +61,12 @@ suite('Functional Tests', function() {
           .delete("/api/threads/testing")
           .send({
             board: 'testing',
-            thread_id: '5e7e814b6a95b10ecdd64fc3',
+            thread_id: '5e83c51fb759b30feccf8abd',
             delete_password: 'threadDelete'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            console.log("DId I delete for testing: " + JSON.stringify(res.body));
-            assert.equal(res.body.result, 'success');
+            assert.equal(res.text, '', 'Successful delete');
             done();
           });
       });
@@ -87,7 +83,6 @@ suite('Functional Tests', function() {
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);
-            console.log('What is body for report: ' + JSON.stringify(res))
             assert.equal(res.text, 'success');
             done();
           });
@@ -112,11 +107,8 @@ suite('Functional Tests', function() {
             reported: false
           })
           .end(function(err, res) {
-            //console.log('Reply to thread test: ' + JSON.stringify(res));
             assert.equal(res.status, 200);
-            //assert.equal(res.body.board, 'testing');
-            //assert.equal(res.body.text, 'A test reply');
-            //assert.equal(res.body.delete_password, 'replyDelete');
+            assert.isDefined(res.text, 'Redirected to reply page exists');
             done();
           });
       });
@@ -167,9 +159,9 @@ suite('Functional Tests', function() {
           .delete("/api/replies/testing")
           .send({
             board: 'testing',
-            thread_id: '5e7d34b1c7e4740e0d83283e',
-            reply_id: '5e87bad76f968c13d427f9e6',
-            delete_password: 'replyDelete'
+            thread_id: '5e7e7eb2094cee0c8b31c451',
+            reply_id: '5e8cf680c2ec7211cc6c20da',
+            delete_password: '1111'
           })
           .end(function(err, res) {
             assert.equal(res.status, 200);

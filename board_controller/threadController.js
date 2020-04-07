@@ -91,12 +91,10 @@ exports.getThread = async(data) => {
 
 exports.deleteThread = async(data) => {
     try {
-        //let threadToFind = data.threadId;
+      
         let findSelectedThread = await threads.find({_id: data.threadId});
-        console.log('Found selected: ' + JSON.stringify(findSelectedThread));
         if(findSelectedThread[0].delete_password == data.deletePass) {
             let deleteSelectedThread = await threads.findByIdAndDelete({_id: data.threadId});
-            console.log('Result of delete: ' + deleteSelectedThread);
             return 'success';
         }
         else {
@@ -111,26 +109,23 @@ exports.deleteThread = async(data) => {
 exports.deletePost = async(data) => {
     try{
         let postDeleteResult = '';
-        console.log("what are we receiving: " + JSON.stringify(data));
 
         let findSelectedPost = await threads.find({_id: new ObjectId(data.threadId)}, function(err, threadData) {
-            console.log("are we here after find");
+           
             if (err) {
                 return console.error(err);
             }
-            console.log("Whats in threaData from find: " + JSON.stringify(threadData))
-            //console.log('Thread data contents: ' + JSON.stringify(threadData[0].replies))
             for(let post of threadData[0].replies) {
-                console.log("each post: " + JSON.stringify(post));
-                console.log('Post ID: ' +typeof((post._id).toString()) + ' ReplyID: ' + typeof(data.replyId))
-                console.log('Post ID: ' + (post._id).toString() + ' deletePass' + (post.delete_password).toString())
+                
                 if((post._id).toString() == data.replyId) {
                     if((post.delete_password).toString() === data.deletePass){
                         post.text = '[delete]';
                         postDeleteResult = 'success';
+                        break;
                     }    
                     else{
                         postDeleteResult = 'incorrect password';
+                        break;
                     }
                 }
                 else {
@@ -142,11 +137,8 @@ exports.deletePost = async(data) => {
                 if(err) {return console.err(err)}
                 return result;
             });
-            console.log('Did delete post work? ' + JSON.stringify(saveResult))
-            //return saveResult;
+            
         });
-        
-        console.log('Result of delete post: ' + postDeleteResult);
         
         return(postDeleteResult);
     }
@@ -161,7 +153,7 @@ exports.reportThread = async(data) => {
            {_id: data}, 
            {$set: {reported: true}}, 
            {new: true});
-           console.log('Result of reporting thread: ' + JSON.stringify(reportThreadResult));
+           
         if(reportThreadResult.reported == true){
             return 'success';
         }
