@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var {threads, replies} = require('./thread.js');
 var ObjectId= mongoose.Types.ObjectId;
 
+//Creates a new thread on a board
 exports.createThread = async(data) => {
     try{
         let options = {
@@ -39,6 +40,7 @@ exports.createThread = async(data) => {
     }
 }
 
+//Creates a reply to the selected thread on a board
 exports.createReply = async(data) => {
     try {
         let options = {
@@ -64,6 +66,7 @@ exports.createReply = async(data) => {
     }
 }
 
+//Returns 10 threads from the selected board
 exports.getBoard = async(data) => {
     try {
         let threadsFromSelectedBoard = await threads.find({board: data}, 
@@ -77,6 +80,7 @@ exports.getBoard = async(data) => {
     }
 }
 
+//Returns all the replies from the selected thread
 exports.getThread = async(data) => {
     try {
         let getSelectedThread = await threads.find({_id: data},
@@ -89,6 +93,7 @@ exports.getThread = async(data) => {
     }
 }
 
+//Deletes the selected thread from a board
 exports.deleteThread = async(data) => {
     try {
       
@@ -106,6 +111,7 @@ exports.deleteThread = async(data) => {
     }
 }
 
+//Deletes a reply to a thread by replacing it's text with [deleted]
 exports.deletePost = async(data) => {
     try{
         let postDeleteResult = '';
@@ -147,6 +153,7 @@ exports.deletePost = async(data) => {
     }
 }
 
+//Reports the selected thread
 exports.reportThread = async(data) => {
     try {
        let reportThreadResult = await threads.findByIdAndUpdate(
@@ -166,6 +173,7 @@ exports.reportThread = async(data) => {
     }
 }
 
+//Reports a reply to a given thread
 exports.reportReply = async(data) => {
     try {
         let postReportResult = false;

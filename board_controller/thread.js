@@ -18,16 +18,16 @@ db.once('open', function callback() {
     console.log('Connected to database');
 });
 
+//Schema for replies to a thread for db
 const replySchema = new mongoose.Schema({
-    //_id: String,
     text: String,
     created_on: {type: Date, default: Date.now},
     delete_password: String,
     reported: Boolean
 });
 
+//Schema for threads for db
 const threadSchema = new mongoose.Schema({
-    //_id: String,
     board: String,
     text: String,
     created_on: {type: Date, default: Date.now},
@@ -44,5 +44,4 @@ var threads = mongoose.model('threads', threadSchema);
 var replies = mongoose.model('replies', replySchema);
 
 module.exports = {threads, replies};
-//module.exports = mongoose.model('Thread', threadSchema);
-//module.exports = mongoose.model('Replies', replySchema);
+
