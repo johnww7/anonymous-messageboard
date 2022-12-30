@@ -18,7 +18,7 @@
 		"dotenv": "^8.1.0",
 		"express": "^4.14.0",
 		"helmet": "^3.21.2",
-		"mocha": "^6.2.2",
+		"mocha": "^10.2.0",
 		"mongodb": "3.4.1",
 		"mongoose": "^5.8.5",
 		"zombie": "^5.0.5"
